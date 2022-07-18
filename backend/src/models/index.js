@@ -1,4 +1,4 @@
-const tutorial = require('./tutorial.model.js')
+const tutorial = require('./tutorial.js')
 
 const dbConfig = require('../config/dbconfig.js')
 const Sequelize = require('sequelize')
@@ -6,7 +6,7 @@ const Sequelize = require('sequelize')
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
-  operatorsAliases: false,
+  operatorsAliases: 0,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,

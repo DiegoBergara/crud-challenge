@@ -10,7 +10,7 @@ const db = require('./src/models')
 db.sequelize.sync()
 
 db.sequelize.sync({ force: true }).then(() => {
-  console.log('Drop and re-sync db.')
+  console.log('Drop and re-sync databaseb.')
 })
 
 const corsOptions = {
@@ -23,9 +23,8 @@ app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello Babe!' })
-})
+const TutorialsRoutes = require('./src/routes/tutorials')
+TutorialsRoutes(app)
 
 const PORT = process.env.SERVER_PORT
 
