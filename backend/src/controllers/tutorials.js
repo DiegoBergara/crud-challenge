@@ -12,7 +12,7 @@ const create = (req, res) => {
 
   const tutorial = {
     title: req.body.title,
-    videoUrl: req.body.description,
+    videoUrl: req.body.videoUrl,
     description: req.body.description,
     publishedStatus: req.body.publishedStatus ? req.body.publishedStatus : false
   }
