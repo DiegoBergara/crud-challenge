@@ -12,7 +12,7 @@ module.exports = app => {
 
   router.delete('/:id', tutorials.deleteById)
 
-  router.delete('/mass_delete', tutorials.deleteAll)
+  router.delete('/', tutorials.deleteAll)
 
   app.use('/tutorials', router)
 }
