@@ -1,6 +1,7 @@
 <template>
-  <div class="submit-form">
+  <div class="submit-form shadow p-3 bg-light rounded mt-5">
     <div v-if="!submitted">
+      <h4 class="border-bottom p-2 mb-3">New Tutorial</h4>
       <div class="form-group">
         <label for="title">Title</label>
         <input
@@ -22,11 +23,46 @@
           name="description"
         />
       </div>
-      <button @click="saveTutorial" class="btn btn-success">Submit</button>
+      <div class="form-group">
+        <label>Video</label>
+        <input
+          class="form-control"
+          id="videoUrl"
+          v-model="tutorial.videoUrl"
+          name="videoUrl"
+        />
+      </div>
+      <label>I want to public this tutorial as:</label>
+      <div class="form-group">
+        <input
+          type="radio"
+          id="public"
+          :value="false"
+          v-model="tutorial.isPrivate"
+        />
+        <label for="public" class="ml-1">Public</label>
+
+        <input
+          type="radio"
+          id="private"
+          class="ml-3"
+          :value="true"
+          v-model="tutorial.isPrivate"
+        />
+        <label for="private" class="ml-1">Private</label>
+      </div>
+      <button @click="onCreateTutorial" class="btn btn-primary w-100">
+        Create
+      </button>
     </div>
     <div v-else>
-      <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click="newTutorial">Add</button>
+      <h4 class="text-center">Created successfully!</h4>
+      <button
+        class="btn btn-success text-center w-100 mt-3"
+        @click="newTutorial"
+      >
+        Add another tutorial
+      </button>
     </div>
   </div>
 </template>
@@ -37,23 +73,24 @@ export default {
   data() {
     return {
       tutorial: {
-        id: null,
         title: "",
         description: "",
-        published: false,
+        videoUrl: "",
+        isPrivate: false,
       },
       submitted: false,
     };
   },
   methods: {
-    saveTutorial() {
-      var data = {
+    onCreateTutorial() {
+      const data = {
         title: this.tutorial.title,
         description: this.tutorial.description,
+        videoUrl: this.tutorial.videoUrl,
+        isPrivate: this.tutorial.isPrivate,
       };
-      TutorialsRequests.create(data)
+      TutorialsRequests.createTutorial(data)
         .then((response) => {
-          this.tutorial.id = response.data.id;
           console.log(response.data);
           this.submitted = true;
         })
@@ -69,9 +106,3 @@ export default {
   },
 };
 </script>
-<style>
-.submit-form {
-  max-width: 300px;
-  margin: auto;
-}
-</style>
