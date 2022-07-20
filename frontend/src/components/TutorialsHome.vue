@@ -1,7 +1,21 @@
 <template>
-  <div>
+  <div v-if="tutorials.length < 1" class="col mt-5 p-3 shadow border rounded">
+    <h3 v-if="showBackToHome" class="text-center">
+      {{ `Not found Tutorials with title ${title}` }}
+    </h3>
+    <h3 v-else class="text-center">There are no tutorials to show</h3>
+    <p class="text-center">
+      Let's <router-link to="/add">create</router-link> one!
+    </p>
+    <p v-if="showBackToHome" class="text-center">
+      <button @click="retrieveTutorials" class="btn btn-link">
+        Back to home
+      </button>
+    </p>
+  </div>
+  <div v-else>
     <div class="col">
-      <div class="input-group">
+      <div class="input-group mt-5">
         <input
           type="text"
           class="form-control"
@@ -41,6 +55,9 @@
         <h4 class="border-bottom p-2 mb-3">Tutorial</h4>
         <div v-if="currentTutorial">
           <div>
+            <label><strong>Id:</strong></label> {{ currentTutorial.id }}
+          </div>
+          <div>
             <label><strong>Title:</strong></label> {{ currentTutorial.title }}
           </div>
           <div>
@@ -55,7 +72,7 @@
           </div>
           <div>
             <label><strong>Status:</strong></label>
-            {{ currentTutorial.published ? "Published" : "Pending" }}
+            {{ currentTutorial.isPrivate ? "Private" : "Public" }}
           </div>
           <router-link
             :to="'/tutorials/' + currentTutorial.id"
@@ -77,6 +94,7 @@ export default {
   data() {
     return {
       tutorials: [],
+      showBackToHome: false,
       currentTutorial: null,
       currentIndex: -1,
       title: "",
@@ -84,6 +102,7 @@ export default {
   },
   methods: {
     retrieveTutorials() {
+      this.showBackToHome = false;
       TutorialsRequests.getAll()
         .then((response) => {
           this.tutorials = response.data;
@@ -114,8 +133,9 @@ export default {
     },
 
     searchTitle() {
-      TutorialsRequests.findByTitle(this.title)
+      TutorialsRequests.getByQuery(this.title, true)
         .then((response) => {
+          this.showBackToHome = true;
           this.tutorials = response.data;
           this.setActiveTutorial(null);
           console.log(response.data);
@@ -130,10 +150,3 @@ export default {
   },
 };
 </script>
-<style>
-.list {
-  text-align: left;
-  max-width: 750px;
-  margin: auto;
-}
-</style>
