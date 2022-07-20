@@ -14,7 +14,7 @@ const create = (req, res) => {
     title: req.body.title,
     videoUrl: req.body.videoUrl,
     description: req.body.description,
-    publishedStatus: req.body.publishedStatus ? req.body.publishedStatus : false
+    isPrivate: req.body.isPrivate ? req.body.isPrivate : false
   }
 
   Tutorial.create(tutorial)
@@ -38,7 +38,7 @@ const getAll = (req, res) => {
     condition.title = { [Op.like]: `%${title}%` }
   }
   if (status) {
-    condition.publishedStatus = { [Op.eq]: status }
+    condition.isPrivate = { [Op.eq]: status }
   }
 
   Tutorial.findAll({ where: condition })

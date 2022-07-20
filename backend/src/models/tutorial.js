@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       trim: true
     },
-    publishedStatus: {
+    isPrivate: {
       type: Sequelize.BOOLEAN,
       allowNull: false
     }
