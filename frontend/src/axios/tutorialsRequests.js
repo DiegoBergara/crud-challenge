@@ -6,7 +6,7 @@ class TutorialsRequests {
   }
 
   getAll() {
-    return Api.get(`/tutorials`);
+    return Api.get(`/tutorials?status=${false}`);
   }
 
   getByQuery(title, status) {
