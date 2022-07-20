@@ -5,8 +5,6 @@ import router from "./router";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import "./assets/main.css";
-
 const app = createApp(App);
 
 app.use(router);
