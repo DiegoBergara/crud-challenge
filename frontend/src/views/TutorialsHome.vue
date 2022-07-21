@@ -1,19 +1,27 @@
 <template>
-  <div v-if="tutorials.length < 1" class="col mt-5 p-3 shadow border rounded">
-    <h3 v-if="showBackToHome" class="text-center">
-      {{ `Not found Tutorials with title ${title}` }}
-    </h3>
-    <h3 v-else class="text-center">There are no tutorials to show</h3>
-    <p class="text-center">
-      Let's <router-link to="/add">create</router-link> one!
-    </p>
-    <p v-if="showBackToHome" class="text-center">
-      <button @click="retrieveTutorials" class="btn btn-link">
-        Back to home
-      </button>
-    </p>
-  </div>
-  <div v-else>
+  <InformationCard
+    :displayCondition="tutorials.length < 1"
+    :titleText="
+      showBackToHome
+        ? `Not found Tutorials with title ${title}`
+        : 'There are no tutorials to show'
+    "
+  >
+    <template v-slot:firstChild
+      ><p class="text-center">
+        Let's <router-link to="/create">create</router-link> one!
+      </p></template
+    >
+    <template v-slot:secondChild
+      ><p v-if="showBackToHome" class="text-center">
+        <button @click="retrieveTutorials" class="btn btn-link">
+          Back to home
+        </button>
+      </p></template
+    >
+  </InformationCard>
+
+  <div v-if="tutorials.length > 0">
     <div class="col">
       <div class="input-group mt-5">
         <input
@@ -35,7 +43,7 @@
     </div>
     <div class="row mt-5 p-3">
       <div class="col-md-6">
-        <h4 class="border-bottom p-2 mb-3">Tutorials List</h4>
+        <SectionTitle title="Tutorials List" />
         <ul class="list-group">
           <li
             class="list-group-item"
@@ -47,50 +55,29 @@
             {{ tutorial.title }}
           </li>
         </ul>
-        <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
+        <button class="mt-3 btn btn-sm btn-danger" @click="removeAllTutorials">
           Remove All
         </button>
       </div>
       <div class="col-md-6">
-        <h4 class="border-bottom p-2 mb-3">Tutorial</h4>
-        <div v-if="currentTutorial">
-          <div>
-            <label><strong>Id:</strong></label> {{ currentTutorial.id }}
-          </div>
-          <div>
-            <label><strong>Title:</strong></label> {{ currentTutorial.title }}
-          </div>
-          <div>
-            <label><strong>Description:</strong></label>
-            {{ currentTutorial.description }}
-          </div>
-          <div v-if="currentTutorial.videoUrl">
-            <label><strong>Video: </strong></label>
-            <a class="m-2" :href="currentTutorial.videoUrl" target="_blank">
-              {{ currentTutorial.videoUrl }}
-            </a>
-          </div>
-          <div>
-            <label><strong>Status:</strong></label>
-            {{ currentTutorial.isPrivate ? "Private" : "Public" }}
-          </div>
-          <router-link
-            :to="'/tutorials/' + currentTutorial.id"
-            class="btn btn-warning"
-            >Edit</router-link
-          >
-        </div>
-        <div v-else>
-          <div class="alert alert-primary">Select a Tutorial...</div>
-        </div>
+        <SectionTitle title="Tutorial" />
+        <TutorialData :currentTutorial="currentTutorial" />
       </div>
     </div>
   </div>
 </template>
 <script>
+import SectionTitle from "../components/SectionTitle.vue";
+import InformationCard from "../components/InformationCard.vue";
+import TutorialData from "../components/TutorialData.vue";
 import TutorialsRequests from "../axios/tutorialsRequests";
 export default {
   name: "tutorials-home",
+  components: {
+    SectionTitle,
+    TutorialData,
+    InformationCard,
+  },
   data() {
     return {
       tutorials: [],

@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
-import TutorialsHome from "../components/TutorialsHome.vue";
-import CreateTutorial from "../components/CreateTutorial.vue";
-import TutorialDetails from "../components/TutorialDetails.vue";
+import TutorialsHome from "../views/TutorialsHome.vue";
+import CreateTutorial from "../views/CreateTutorial.vue";
+import TutorialDetails from "../views/TutorialDetails.vue";
 const routes = [
   {
     path: "/",
@@ -15,7 +15,7 @@ const routes = [
     component: TutorialDetails,
   },
   {
-    path: "/add",
+    path: "/create",
     name: "create-tutorial",
     component: CreateTutorial,
   },
