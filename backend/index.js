@@ -25,6 +25,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const TutorialsRoutes = require('./src/routes/tutorials')
 TutorialsRoutes(app)
 
+const AuthenticationRoutes = require('./src/routes/authentication')
+AuthenticationRoutes(app)
+
 const PORT = process.env.SERVER_PORT
 
 app.listen(PORT, () => {

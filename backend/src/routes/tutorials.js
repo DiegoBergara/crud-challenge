@@ -1,8 +1,9 @@
 module.exports = app => {
   const tutorials = require('../controllers/tutorials')
+  const authenticateToken = require('../middleware/authentication')
   const router = require('express').Router()
 
-  router.post('/', tutorials.create)
+  router.post('/', authenticateToken, tutorials.create)
 
   router.get('/', tutorials.getAll)
 
