@@ -1,5 +1,10 @@
 <template>
   <AlertComponent
+    :showalert="message !== ''"
+    :alertText="message"
+    alertType="success"
+  />
+  <AlertComponent
     :showalert="wrongVideoUrl"
     alertText="Error: The video is not from youtube"
     alertType="danger"
