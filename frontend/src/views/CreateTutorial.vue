@@ -56,6 +56,7 @@ export default {
       }
 
       if (videoUrlIsOk) {
+        this.wrongVideoUrl = false;
         const data = tutorial;
         TutorialsRequests.createTutorial(data)
           .then((response) => {
