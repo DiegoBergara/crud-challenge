@@ -2,7 +2,10 @@ import Api from "./api";
 
 class TutorialsRequests {
   createTutorial(data) {
-    return Api.post("/tutorials", data);
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    };
+    return Api.post("/tutorials", data, { headers });
   }
 
   getAll() {

@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
+import AuhorizationRequests from "/src/axios/autorizationRequests.js";
 </script>
 
 <template>
@@ -23,5 +24,23 @@ import { RouterLink, RouterView } from "vue-router";
 <script>
 export default {
   name: "app",
+  methods: {
+    getAuthToken() {
+      if (!localStorage.getItem("accessToken")) {
+        AuhorizationRequests.getToken()
+          .then((response) => {
+            console.log("token", response.data);
+
+            localStorage.setItem("accessToken", response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+  },
+  mounted() {
+    this.getAuthToken();
+  },
 };
 </script>
